@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
     @group.user = current_user
 
     if @group.save
+      current_user.join!(@group)
       redirect_to groups_path
     else
       render :new
@@ -47,7 +48,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if !current_user.is_member_of?(@group)
       current_user.join!(@group)
-      flas[:notice] = "JIARUCHENGGONG!"
+      flash[:notice] = "JIARUCHENGGONG"
     else
       flash[:warning] ="ALREADYIN!"
     end
